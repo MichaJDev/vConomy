@@ -11,16 +11,17 @@ import vConomy.Main;
 import vConomy.Data.Configuration.Config;
 import vConomy.Data.Configuration.Writers.Writer;
 import vConomy.Data.Models.Bank;
+import vConomy.Data.Models.Wallet;
 
-public class BankDB {
+public class WalletDB {
 
 	private Main main;
 	private Config cfg;
 	private Writer writer;
 
-	public BankDB(Main main) {
+	public WalletDB(Main main) {
 		this.main = main;
-		this.cfg = new Config(main);
+		cfg = new Config(main);
 		writer = cfg.getWriter();
 	}
 
@@ -30,12 +31,12 @@ public class BankDB {
 	}
 
 	private void CreateDir() {
-		File file = new File(main.getDataFolder(), "\\Banks\\");
+		File file = new File(main.getDataFolder(), "\\Wallets\\");
 		file.mkdirs();
 	}
 
 	public File GetDir() {
-		return new File(main.getDataFolder(), "\\Banks\\");
+		return new File(main.getDataFolder(), "\\Wallets\\");
 	}
 
 	private void CreateSettings() {
@@ -79,14 +80,14 @@ public class BankDB {
 		return file;
 	}
 
-	public Bank GetBank(Player p) {
+	public Wallet GetWallet(Player p) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(GetFile(p));
-		Bank bank = new Bank(p, cfg.getInt("Amount"));
+		Wallet wallet = new Wallet(p, cfg.getInt("Amount"), cfg.getInt("MaxAmount"));
 
-		return bank;
+		return wallet;
 	}
 
-	public void CreateBank(Player p) {
+	public void CreateWallet(Player p) {
 		File file = new File(GetDir(), p.getUniqueId().toString() + ".yml");
 		if (!file.exists()) {
 			try {
@@ -95,17 +96,17 @@ public class BankDB {
 				main.getLogger().severe(io.getMessage());
 				writer.writeErrorLog(io.getMessage());
 			}
-			NestBankStats(p);
+			NestWalletStats(p);
 		}
 	}
 
-	public void SaveBank(Player p, Bank bank) {
-		FileConfiguration cfgBank = YamlConfiguration.loadConfiguration(GetFile(p));
-		cfgBank.set("Amount", bank.getAmount());
-		cfgBank.set("MaxAmount", bank.getMaxAmount());
+	public void SaveWallet(Player p, Wallet wallet) {
+		FileConfiguration cfgWallet = YamlConfiguration.loadConfiguration(GetFile(p));
+		cfgWallet.set("Amount", wallet.getAmount());
+		cfgWallet.set("MaxAmount", wallet.getMaxAmount());
 	}
 
-	private void NestBankStats(Player p) {
+	private void NestWalletStats(Player p) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(GetFile(p));
 		cfg.addDefault("Amount", 0);
 		cfg.options().copyDefaults(true);
@@ -115,5 +116,7 @@ public class BankDB {
 			main.getLogger().severe(io.getMessage());
 			writer.writeErrorLog(io.getMessage());
 		}
+
 	}
+
 }

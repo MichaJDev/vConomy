@@ -5,6 +5,7 @@ import java.io.File;
 import vConomy.Main;
 import vConomy.Data.Configuration.Databases.BankDB;
 import vConomy.Data.Configuration.Databases.MatDB;
+import vConomy.Data.Configuration.Databases.WalletDB;
 import vConomy.Data.Configuration.Writers.Writer;
 
 public class Config {
@@ -13,12 +14,14 @@ public class Config {
 	private Main main;
 	private Writer writer;
 	private BankDB bank;
-	
+	private WalletDB wallet;
+
 	public Config(Main main) {
 		this.main = main;
 		mats = new MatDB(main);
 		writer = new Writer(main);
 		bank = new BankDB(main);
+		wallet = new WalletDB(main);
 	}
 
 	public void Setup() {
@@ -32,8 +35,13 @@ public class Config {
 	public BankDB getBankDB() {
 		return bank;
 	}
+
 	public Writer getWriter() {
 		return writer;
+	}
+
+	public WalletDB getWalletDB() {
+		return wallet;
 	}
 
 	private void CreateDir() {

@@ -16,21 +16,13 @@ public class Bank {
 	private int amount;
 	private int maxAmount;
 
-	private Main main;
-	private Config cfg;
-	private Writer log;
-
-	public Bank(Main main, Player p, int maxAmount) {
-		this.main = main;
+	public Bank(Player p, int maxAmount) {
 		this.player = p;
 		this.bankUUID = p.getUniqueId();
-		this.maxAmount = maxAmount;
-		this.cfg = new Config(main);
-		this.log = cfg.getWriter();
 	}
 
-	public Bank(Main main, Player p, int amount, int maxAmount) {
-		this.main = main;
+	public Bank(Player p, int amount, int maxAmount) {
+
 		this.player = p;
 		this.bankUUID = p.getUniqueId();
 		this.amount = amount;
