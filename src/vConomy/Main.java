@@ -1,20 +1,23 @@
 package vConomy;
 
-import org.bukkit.event.Listener;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import vConomy.Bussines.Listeners.Listeners;
-import vConomy.Bussines.Listeners.Auth.LoginListener;
 import vConomy.Data.Configuration.Config;
+import vConomy.Data.Models.Bank;
 
 @SuppressWarnings("unused")
 public class Main extends JavaPlugin {
 
 	private Config cfg;
-
+	private List<Bank> banks;
 	private Listeners list;
 
 	public void onEnable() {
+		banks = new ArrayList<Bank>();
 		cfg = new Config(this);
 		list = new Listeners(this);
 		if (!cfg.getDir().exists()) {
@@ -38,5 +41,9 @@ public class Main extends JavaPlugin {
 
 	public void GetListeners() {
 		getServer().getPluginManager().registerEvents(list.getLogin(), this);
+	}
+
+	public List<Bank> GetBanks() {
+		return banks;
 	}
 }

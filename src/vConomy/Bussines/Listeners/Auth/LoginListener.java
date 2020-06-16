@@ -5,6 +5,7 @@ import java.io.File;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import vConomy.Main;
 import vConomy.Data.Configuration.Config;
@@ -16,7 +17,7 @@ public class LoginListener implements Listener {
 	private Main main;
 	private Config cfg;
 	private Writer writer;
-	
+
 	public LoginListener(Main main) {
 		this.main = main;
 		cfg = new Config(main);
@@ -29,8 +30,13 @@ public class LoginListener implements Listener {
 			if (!f.getName().contains(e.getPlayer().getUniqueId().toString())) {
 				main.getLogger().info("Player logged in for the first time, creating bankaccount!");
 				cfg.getBankDB().CreateBank(e.getPlayer());
-				
+			} else {
+				main.GetBanks().add(cfg.getBankDB().GetBank(e.getPlayer()));
 			}
 		}
+	}
+
+	public void OnLogout(PlayerQuitEvent e) {
+		
 	}
 }
