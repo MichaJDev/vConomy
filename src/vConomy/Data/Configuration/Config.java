@@ -1,0 +1,54 @@
+package vConomy.Data.Configuration;
+
+import java.io.File;
+
+import vConomy.Main;
+import vConomy.Data.Configuration.Databases.BankDB;
+import vConomy.Data.Configuration.Databases.MatDB;
+import vConomy.Data.Configuration.Writers.Writer;
+
+public class Config {
+
+	private MatDB mats;
+	private Main main;
+	private Writer writer;
+	private BankDB bank;
+	
+	public Config(Main main) {
+		this.main = main;
+		mats = new MatDB(main);
+		writer = new Writer(main);
+		bank = new BankDB(main);
+	}
+
+	public void Setup() {
+		CreateDir();
+	}
+
+	public MatDB getMatDB() {
+		return mats;
+	}
+
+	public BankDB getBankDB() {
+		return bank;
+	}
+	public Writer getWriter() {
+		return writer;
+	}
+
+	private void CreateDir() {
+		File file = new File(main.getDataFolder(), "Config");
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+	}
+
+	public File getDir() {
+		File file = new File(main.getDataFolder(), "\\Config\\");
+		if (!file.exists()) {
+			return null;
+		}
+		return file;
+	}
+
+}
