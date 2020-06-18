@@ -91,6 +91,7 @@ public class BankDB {
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
+				writer.createBankFile(p);
 			} catch (IOException io) {
 				main.getLogger().severe(io.getMessage());
 				writer.writeErrorLog(io.getMessage());
@@ -103,6 +104,7 @@ public class BankDB {
 		FileConfiguration cfgBank = YamlConfiguration.loadConfiguration(GetFile(p));
 		cfgBank.set("Amount", bank.getAmount());
 		cfgBank.set("MaxAmount", bank.getMaxAmount());
+
 	}
 
 	private void NestBankStats(Player p) {

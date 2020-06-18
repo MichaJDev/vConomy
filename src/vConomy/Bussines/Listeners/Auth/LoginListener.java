@@ -12,8 +12,8 @@ import vConomy.Data.Configuration.Config;
 import vConomy.Data.Configuration.Writers.Writer;
 import vConomy.Data.Models.Bank;
 import vConomy.Data.Models.Wallet;
+import vConomy.Data.Models.Enums.LogType;
 
-@SuppressWarnings("unused")
 public class LoginListener implements Listener {
 
 	private Main main;
@@ -32,6 +32,7 @@ public class LoginListener implements Listener {
 			if (!f.getName().contains(e.getPlayer().getUniqueId().toString())) {
 				main.getLogger().info("Player logged in for the first time, creating bankaccount!");
 				cfg.getBankDB().CreateBank(e.getPlayer());
+				writer.writeCreationLog(e.getPlayer());
 			} else {
 				main.GetBanks().add(cfg.getBankDB().GetBank(e.getPlayer()));
 			}
@@ -40,6 +41,7 @@ public class LoginListener implements Listener {
 			if (!f.getName().contains(e.getPlayer().getUniqueId().toString())) {
 				main.getLogger().info("Player logged in for the first time, creating bankaccount!");
 				cfg.getWalletDB().CreateWallet(e.getPlayer());
+				writer.writeCreationLog(e.getPlayer());
 			} else {
 				main.GetWallets().add(cfg.getWalletDB().GetWallet(e.getPlayer()));
 			}
@@ -47,9 +49,16 @@ public class LoginListener implements Listener {
 	}
 
 	public void OnLogout(PlayerQuitEvent e) {
+		main.log(LogType.INFO,
+				e.getPlayer().getName() + ":" + e.getPlayer().getUniqueId().toString() + " has logged out");
+		main.log(LogType.INFO, "Saving bank and Wallet");
 		Bank bank = cfg.getBankDB().GetBank(e.getPlayer());
 		cfg.getBankDB().SaveBank(e.getPlayer(), bank);
+		main.log(LogType.INFO, "Bank saved, saving wallet");
 		Wallet wallet = cfg.getWalletDB().GetWallet(e.getPlayer());
+		main.log(LogType.INFO, "Wallet saved, saving complete!");
 		cfg.getWalletDB().SaveWallet(e.getPlayer(), wallet);
+		writer.writeBankLog(e.getPlayer().getUniqueId(), "Logout | Bank Account Saved");
+
 	}
 }

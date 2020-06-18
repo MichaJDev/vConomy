@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import vConomy.Main;
 import vConomy.Data.Configuration.Config;
 import vConomy.Data.Configuration.Writers.Writer;
-import vConomy.Data.Models.Bank;
 import vConomy.Data.Models.Wallet;
+import vConomy.Data.Models.Enums.LogType;
 
 public class WalletDB {
 
@@ -104,6 +104,14 @@ public class WalletDB {
 		FileConfiguration cfgWallet = YamlConfiguration.loadConfiguration(GetFile(p));
 		cfgWallet.set("Amount", wallet.getAmount());
 		cfgWallet.set("MaxAmount", wallet.getMaxAmount());
+		cfgWallet.options().copyDefaults();
+		try {
+			cfgWallet.save(GetFile(p));
+		} catch (IOException io) {
+			main.log(LogType.SEVERE, io.getMessage());
+			writer.writeErrorLog(io.getMessage());
+		}
+		;
 	}
 
 	private void NestWalletStats(Player p) {

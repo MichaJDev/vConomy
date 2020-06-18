@@ -11,7 +11,6 @@ import vConomy.Data.Models.Bank;
 import vConomy.Data.Models.Wallet;
 import vConomy.Data.Models.Enums.LogType;
 
-@SuppressWarnings("unused")
 public class Main extends JavaPlugin {
 
 	private Config cfg;
@@ -58,9 +57,10 @@ public class Main extends JavaPlugin {
 		return banks;
 	}
 
-	public List<Wallet> GetWallets(){
+	public List<Wallet> GetWallets() {
 		return wallets;
 	}
+
 	public void log(LogType log, String msg) {
 		switch (log) {
 		case INFO:
