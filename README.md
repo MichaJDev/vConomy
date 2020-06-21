@@ -7,12 +7,13 @@ _He wanted to try his hands on a much more harder concept for a RPG plugin, This
 
 ## Commands
 
-_**Player**_
+### Player
 * Wallet
 * Wallet Pay
 * Bank
 * Bank Deposit
 * Bank Withdraw
-_**Admins**_
+
+### Admins
 * Wallet Reset <name>
 * Bank Reset <name>
