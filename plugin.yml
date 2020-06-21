@@ -1,0 +1,7 @@
+main: vConomy.Main
+name: vConomy
+author: [Micha "Vyx" Johnson]
+
+commands: 
+   wallet:
+      description: open your wallet

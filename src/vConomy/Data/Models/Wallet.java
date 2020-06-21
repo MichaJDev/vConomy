@@ -16,27 +16,17 @@ public class Wallet {
 	private int amount;
 	private int maxAmount;
 
-	private Main main;
-	private Config cfg;
-	private Writer writer;
-
-	public Wallet(Main main, Player p, int maxAmount) {
-		this.main = main;
+	public Wallet(Player p, int maxAmount) {
 		this.player = p;
 		this.uuid = p.getUniqueId();
 		this.maxAmount = maxAmount;
-		this.cfg = new Config(main);
-		this.writer = cfg.getWriter();
 	}
 
-	public Wallet(Main main, Player p, int amount, int maxAmount) {
-		this.main = main;
+	public Wallet(Player p, int amount, int maxAmount) {
 		this.player = p;
 		this.uuid = p.getUniqueId();
 		this.amount = amount;
 		this.maxAmount = maxAmount;
-		this.cfg = new Config(main);
-		this.writer = cfg.getWriter();
 	}
 
 	public Player getPlayer() {

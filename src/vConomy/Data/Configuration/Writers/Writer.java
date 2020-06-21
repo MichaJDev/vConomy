@@ -11,18 +11,26 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import vConomy.Main;
+import vConomy.Data.Configuration.Config;
+import vConomy.Data.Configuration.Databases.BankDB;
 
 public class Writer {
 
 	private Main main;
+	private Config cfg;
+	private BankDB bank;
 
 	public Writer(Main main) {
 		this.main = main;
+		cfg = new Config(main);
+		bank = cfg.getBankDB();
 	}
 
 	public void Setup() {
 		CreateDir();
 		CreateLog();
+		CreateCreationLog();
+		CreateBankLogDir();
 	}
 
 	private void CreateDir() {
@@ -51,7 +59,7 @@ public class Writer {
 
 	public void writeErrorLog(String msg) {
 		FileConfiguration log = YamlConfiguration.loadConfiguration(GetLogFile());
-		log.addDefault("[" + LocalDate.now().toString() + "]-[" + LocalTime.now() + "]: ", msg);
+		log.addDefault("[" + LocalDate.now().toString() + "]-[" + LocalTime.now().toString() + "]: ", msg);
 		log.options().copyDefaults(true);
 		try {
 			log.save(GetLogFile());
@@ -60,8 +68,19 @@ public class Writer {
 		}
 	}
 
+	private void CreateBankLogDir() {
+		File file = new File(bank.GetDir(), "\\BankLogs\\");
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+	}
+
+	private File GetBankLogDir() {
+		return new File(bank.GetDir(), "\\BankLogs\\");
+	}
+
 	public void createBankFile(Player p) {
-		File file = new File(GetDir(), p.getUniqueId() + ".yml");
+		File file = new File(GetBankLogDir(), p.getUniqueId() + ".yml");
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -78,7 +97,29 @@ public class Writer {
 
 	public void writeBankLog(UUID uuid, String msg) {
 		FileConfiguration cfg = YamlConfiguration.loadConfiguration(GetBankFile(uuid));
-		cfg.addDefault("[" + LocalDate.now() + "]-[" + LocalTime.now() + "]", msg);
+		cfg.addDefault("[" + LocalDate.now().toString() + "]-[" + LocalTime.now().toString() + "]", msg);
+	}
+
+	private void CreateCreationLog() {
+		File file = new File(GetDir(), "accountCreationLog.yml");
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException io) {
+				main.getLogger().severe(io.getMessage());
+				writeErrorLog(io.getMessage());
+			}
+		}
+	}
+
+	private File GetCreationFile() {
+		return new File(GetDir(), "accountCreationLog.yml");
+	}
+
+	public void writeCreationLog(Player p) {
+		FileConfiguration cfg = YamlConfiguration.loadConfiguration(GetCreationFile());
+		cfg.addDefault("[" + LocalDate.now().toString() + "]-[" + LocalTime.now().toString() + "]",
+				"Created new Account for " + p.getName() + ":" + p.getUniqueId().toString());
 	}
 
 }
