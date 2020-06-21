@@ -14,10 +14,12 @@ import vConomy.Data.Configuration.Writers.Writer;
 import vConomy.Data.Models.Wallet;
 import vConomy.Data.Models.Enums.LogType;
 
+@SuppressWarnings("unused")
 public class WalletCmd implements CommandExecutor {
 
 	private Main main;
 	private Config cfg;
+
 	private Writer writer;
 	private WalletDB wallet;
 
@@ -49,7 +51,7 @@ public class WalletCmd implements CommandExecutor {
 				} else if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("pay")) {
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-								"Cannot use pay like that: /wallet pay <player> <amount>"));
+								"&cCannot use pay like that: /wallet pay <player> <amount>"));
 					}
 				} else if (args.length > 1) {
 					if (args[0].equalsIgnoreCase("pay")) {
@@ -57,17 +59,22 @@ public class WalletCmd implements CommandExecutor {
 							Player tp = main.getServer().getPlayer(args[1]);
 							Wallet tpWal = wallet.GetWallet(tp);
 							Wallet myWal = wallet.GetWallet(p);
-							if (AmountChecker.isInteger(args[1])) {
-								tpWal.setAmount(tpWal.getAmount() + Integer.parseInt(args[2]));
-								myWal.setAmount(myWal.getAmount() - Integer.parseInt(args[2]));
+							if (AmountChecker.isInteger(args[2])) {
+								if (!(myWal.getAmount() - Integer.parseInt(args[2]) < 0)) {
+									tpWal.setAmount(tpWal.getAmount() + Integer.parseInt(args[2]));
+									myWal.setAmount(myWal.getAmount() - Integer.parseInt(args[2]));
+								} else {
+									p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+											"&cCannot use more than wallet balance to pay."));
+								}
 							} else {
 								p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-										"Expected integer(number): /wallet pay <player> <amount>"));
+										"&cExpected integer(number): /wallet pay <player> <amount>"));
 							}
 						}
 					} else {
 						p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-								"player slot cannot be empty: /wallet pay <player> <amount>"));
+								"&cPlayer slot cannot be empty: /wallet pay <player> <amount>"));
 					}
 				}
 			} else {

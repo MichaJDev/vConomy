@@ -3,8 +3,10 @@ package vConomy.Surface.Commands;
 import vConomy.Main;
 import vConomy.Data.Configuration.Config;
 import vConomy.Data.Configuration.Writers.Writer;
+import vConomy.Data.Models.Enums.LogType;
 import vConomy.Surface.Commands.Wallet.WalletCmd;
 
+@SuppressWarnings("unused")
 public class CommandHandler {
 
 	private Main main;
@@ -18,6 +20,7 @@ public class CommandHandler {
 		writer = cfg.getWriter();
 		wCmd = new WalletCmd(main);
 		writer.writeErrorLog("CommandHandler Setup");
+		main.log(LogType.INFO, "Setup CommandHandler Succesfully!");
 	}
 
 	public WalletCmd getWalletCommand() {
