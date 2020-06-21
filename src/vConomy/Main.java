@@ -10,6 +10,7 @@ import vConomy.Data.Configuration.Config;
 import vConomy.Data.Models.Bank;
 import vConomy.Data.Models.Wallet;
 import vConomy.Data.Models.Enums.LogType;
+import vConomy.Surface.Commands.CommandHandler;
 
 public class Main extends JavaPlugin {
 
@@ -17,12 +18,14 @@ public class Main extends JavaPlugin {
 	private List<Bank> banks;
 	private List<Wallet> wallets;
 	private Listeners list;
+	private CommandHandler cmd;
 
 	public void onEnable() {
 		banks = new ArrayList<Bank>();
 		wallets = new ArrayList<Wallet>();
 		cfg = new Config(this);
 		list = new Listeners(this);
+		cmd = new CommandHandler(this);
 		if (!cfg.getDir().exists()) {
 			getLogger().warning("vConomy Configuration and Files not setup");
 			Setup();
@@ -46,7 +49,7 @@ public class Main extends JavaPlugin {
 	}
 
 	public void GetCommands() {
-
+		getCommand("wallet").setExecutor(cmd.getWalletCommand());
 	}
 
 	public void GetListeners() {

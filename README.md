@@ -17,3 +17,11 @@ _He wanted to try his hands on a much more harder concept for a RPG plugin, This
 ### Admins
 * Wallet Reset <name>
 * Bank Reset <name>
+
+## Permissions
+
+### Wallet
+* vconomy.wallet
+* vconomy.wallet.admin
+* vconomy.bank
+* vconomy.bank.admin
