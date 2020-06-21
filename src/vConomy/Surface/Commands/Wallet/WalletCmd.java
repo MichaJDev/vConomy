@@ -36,8 +36,10 @@ public class WalletCmd implements CommandExecutor {
 				if (s.hasPermission("vConomy.wallet")) {
 					if (args.length == 0) {
 						s.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a-&e+&a-------------&e+&a-"));
-						s.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a-&e+&a" + s.getName()  + "'s wallet"+ "&e+&a-"));
-						s.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a-&e+&a Amount: " + wall.getAmount() + " &e+&a"));
+						s.sendMessage(ChatColor.translateAlternateColorCodes('&',
+								"&a-&e+&a" + s.getName() + "'s wallet" + "&e+&a-"));
+						s.sendMessage(ChatColor.translateAlternateColorCodes('&',
+								"&a-&e+&a Amount: " + wall.getAmount() + " &e+&a"));
 						s.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a-&e+&a-------------&e+&a-"));
 					}
 				}
