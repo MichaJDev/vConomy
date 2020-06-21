@@ -1,7 +1,25 @@
 main: vConomy.Main
 name: vConomy
-author: [Micha "Vyx" Johnson]
-
-commands: 
+version: 0.6
+author: [MichaVyxJohnson]
+commands:
    wallet:
-      description: open your wallet
+      description: wallet commands
+   bank:
+      description: bank commands
+permissions:
+   vconomy.*:
+      description: global permission node
+      children:
+         vconomy.wallet: true
+         vconomy.bank: true
+         vconomy.wallet.admin: true
+         vconomy.bank.admin: true
+   vconomy.wallet:
+      description: use general wallet commands
+   vconomy.wallet.admin:
+      description: use admin wallet commands
+   vconomy.bank:
+      description: use general bank commands
+   vconomy.bank.admin:
+      description: use admin bank commands
